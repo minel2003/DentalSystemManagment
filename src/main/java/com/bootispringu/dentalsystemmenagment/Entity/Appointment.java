@@ -30,9 +30,9 @@ public class Appointment {
 
     @Column(name="status",nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status; // SCHEDULED, COMPLETED, CANCELLED
+    private Status status;
 
-    // Relations
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
@@ -41,4 +41,7 @@ public class Appointment {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Employee doctor;
+
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<com.bootispringu.dentalsystemmenagment.Entity.AppointmentService> services;
 }

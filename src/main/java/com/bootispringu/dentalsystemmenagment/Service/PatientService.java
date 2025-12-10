@@ -46,16 +46,13 @@ public class PatientService {
         return patientRepository.findByEmail(email);
     }
 
-    /**
-     * Find patient by UserAccount username (which is typically the email)
-     */
     public Patient findByUserAccountUsername(String username) {
-        // First try by email (since UserAccount username is usually email)
+
         Patient patient = findByEmail(username);
         if (patient != null) {
             return patient;
         }
-        // Fallback to username field
+
         return findByUsername(username);
     }
 }

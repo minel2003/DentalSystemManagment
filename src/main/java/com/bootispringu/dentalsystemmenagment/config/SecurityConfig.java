@@ -31,17 +31,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Public URLs
+
                         .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**").permitAll()
 
-                        // Role-based URLs
+
                         .requestMatchers("/receptionist/**").hasRole("RECEPTIONIST")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/doctor/**").hasRole("DOCTOR")
                         .requestMatchers("/patient/**").hasRole("PATIENT")
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/finance/**").hasRole("FINANCE")
 
 
-                        // Any other request requires authentication
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

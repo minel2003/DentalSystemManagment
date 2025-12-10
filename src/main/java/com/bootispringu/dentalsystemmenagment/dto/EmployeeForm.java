@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class EmployeeForm {
 
-    private Long id; // optional for updates
+    private Long id;
 
     @NotBlank(message = "First name is required!")
     private String firstName;
@@ -50,20 +50,19 @@ public class EmployeeForm {
     @NotBlank(message = "Gender is required!")
     private String gender;
 
-    private String position; // optional
+    private String position;
 
-    @NotNull(message = "Role is required!")
-    private Role role; // DOCTOR, RECEPTIONIST, etc.
+    private Role role;
 
-    private String specialization; // optional
+    private String specialization;
 
-    private Long departmentId; // link by id, optional
+    private Long departmentId;
 
     @NotNull(message = "Hire date is required!")
     private LocalDate hireDate;
 
-    private Double salary; // optional
+    private Double salary;
 
     @NotBlank(message = "Status is required!")
-    private String status; // Active, Inactive
+    private String status;
 }

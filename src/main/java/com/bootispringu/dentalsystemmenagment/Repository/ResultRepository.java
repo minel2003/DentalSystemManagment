@@ -11,15 +11,15 @@ import java.util.List;
 @Repository
 public interface ResultRepository extends JpaRepository<Result, Long> {
 
-    // Get all results for a specific patient
+
     List<Result> findByPatient(Patient patient);
 
-    // Get all results for a patient ordered by date (newest first)
+
     List<Result> findByPatientOrderByCreatedAtDesc(Patient patient);
 
-    // Get all results for a doctor ordered by date (newest first)
+
     List<Result> findByDoctorOrderByCreatedAtDesc(Employee doctor);
 
-    // Get the latest result for a patient (by createdAt descending)
+
     Result findTopByPatientOrderByCreatedAtDesc(Patient patient);
 }

@@ -20,19 +20,19 @@ public class FeedbackService {
     public List<Feedback> findAllFeedback() {
         return feedbackRepository.findAll();
     }
-    // Save feedback
+
     public Feedback saveFeedback(Feedback feedback) {
         return feedbackRepository.save(feedback);
     }
 
-    // Get all feedbacks for a patient
+
     public List<Feedback> getFeedbacksByPatient(Patient patient) {
         return feedbackRepository.findAll().stream()
                 .filter(f -> f.getPatient().equals(patient))
                 .toList();
     }
 
-    // ✅ Count feedbacks submitted by a patient
+
     public long countFeedbacksByPatient(Patient patient) {
         return feedbackRepository.countByPatient(patient);
     }

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PatientForm {
 
-    private Long patientId; // optional, for updates
+    private Long patientId;
 
     @NotBlank(message = "Personal number is required")
     private String patientPersonalNumber;
@@ -31,7 +31,7 @@ public class PatientForm {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    // Contact Information
+
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
@@ -45,14 +45,14 @@ public class PatientForm {
     @Email(message = "Provide a valid email")
     private String email;
 
-    // Personal Information
+
     @NotNull(message = "Birth date is required")
     private LocalDate birthDate;
 
     @NotBlank(message = "Gender is required")
     private String gender;
 
-    // Medical Information
+
     private String medicalHistory;
 
     private String alergies;
@@ -61,6 +61,6 @@ public class PatientForm {
 
     private String bloodType;
 
-    // System Information
-    private String status; // Active, Inactive
+
+    private String status;
 }

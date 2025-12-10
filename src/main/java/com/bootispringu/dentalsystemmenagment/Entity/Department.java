@@ -28,7 +28,15 @@ public class Department {
     @Column(name = "location")
     private String location;
 
-    // System Information
+    @ManyToOne
+    @JoinColumn(name = "department_type_id")
+    private DepartmentType departmentType;
+    
+    @Column(name = "category")
+    private String category;
+
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 
@@ -38,7 +46,7 @@ public class Department {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //Relations
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employees;
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByFirstNameAndLastName(String firstName, String lastName);
-    List<Employee> findByRole(Role role); // ✅ must match enum type
+    List<Employee> findByRole(Role role);
     Optional<Employee> findByEmail(String email);
 
 }

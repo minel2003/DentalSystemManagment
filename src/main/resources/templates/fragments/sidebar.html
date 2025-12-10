@@ -1,0 +1,26 @@
+<!-- Shared Sidebar Fragment -->
+<!-- Usage: th:replace="~{fragments/sidebar :: sidebar(role='ADMIN', activePage='home')}" -->
+<div th:fragment="sidebar(role, activePage)" class="sidebar">
+    <div class="sidebar-header">
+        <h5 th:switch="${role}">
+            <i th:case="'ADMIN'" class="fas fa-user-shield"></i>
+            <i th:case="'MANAGER'" class="fas fa-user-tie"></i>
+            <i th:case="'DOCTOR'" class="fas fa-user-md"></i>
+            <i th:case="'PATIENT'" class="fas fa-user"></i>
+            <i th:case="'RECEPTIONIST'" class="fas fa-user-tie"></i>
+            <i th:case="'FINANCE'" class="fas fa-dollar-sign"></i>
+            <span th:switch="${role}">
+                <span th:case="'ADMIN'">Admin Panel</span>
+                <span th:case="'MANAGER'">Manager Panel</span>
+                <span th:case="'DOCTOR'">Doctor Panel</span>
+                <span th:case="'PATIENT'">Patient Panel</span>
+                <span th:case="'RECEPTIONIST'">Receptionist</span>
+                <span th:case="'FINANCE'">Finance</span>
+            </span>
+        </h5>
+    </div>
+    <nav class="nav flex-column">
+        <!-- Dynamic navigation will be inserted by each template -->
+    </nav>
+</div>
+

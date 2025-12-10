@@ -31,7 +31,7 @@ public class PatientController {
         this.resultService = resultService;
     }
 
-    // ========================= Home =========================
+
     @GetMapping("/patient/home")
     public String patientHome(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
@@ -39,10 +39,10 @@ public class PatientController {
             return "redirect:/login";
         }
 
-        // Fetch logged-in patient (UserAccount username is typically email)
+
         Patient patient = patientService.findByUserAccountUsername(userDetails.getUsername());
 
-        // If patient profile doesn't exist yet, still allow access but with limited data
+
         if (patient == null) {
             model.addAttribute("patient", null);
             model.addAttribute("upcomingAppointment", null);
@@ -52,19 +52,19 @@ public class PatientController {
             return "patient/home";
         }
 
-        // Upcoming appointment
+
         Appointment upcomingAppointment =
                 appointmentService.getUpcomingAppointmentForPatient(patient);
 
-        // Completed treatments count
+
         long completedTreatments =
                 appointmentService.countCompletedAppointments(patient);
 
-        // Feedback count
+
         long feedbackCount =
                 feedbackService.countFeedbacksByPatient(patient);
 
-        // Add data to model
+
         model.addAttribute("patient", patient);
         model.addAttribute("upcomingAppointment", upcomingAppointment);
         model.addAttribute("completedTreatments", completedTreatments);
@@ -74,7 +74,7 @@ public class PatientController {
         return "patient/home";
     }
 
-    // ========================= APPOINTMENTS =========================
+
     @GetMapping("/patient/appointments")
     public String viewAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
@@ -84,7 +84,7 @@ public class PatientController {
 
         Patient patient = patientService.findByUserAccountUsername(userDetails.getUsername());
         if (patient == null) {
-            // If patient profile doesn't exist, show empty appointments list
+
             model.addAttribute("appointments", new ArrayList<>());
             model.addAttribute("profileIncomplete", true);
             return "patient/appointments";
@@ -98,7 +98,7 @@ public class PatientController {
 
         return "patient/appointments";
     }
-    // ========================= VIEW RESULTS =========================
+
     @GetMapping("/patient/results")
     public String viewResults(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
@@ -119,7 +119,7 @@ public class PatientController {
         return "patient/results";
     }
 
-    // ========================= FEEDBACK =========================
+
     @GetMapping("/patient/feedback")
     public String feedback(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
@@ -130,7 +130,7 @@ public class PatientController {
         return "coming_soon";
     }
 
-    // ========================= MESSAGE =========================
+
     @GetMapping("/patient/message")
     public String message(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {

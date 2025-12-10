@@ -32,7 +32,7 @@ public class Patient {
     @Column(name = "last_name")
     private String lastName;
 
-    // Contact Information
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -53,14 +53,14 @@ public class Patient {
     @Column(name="password")
     private String password;
 
-    // Personal Information
+
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "gender")
     private String gender;
 
-    // Medical Information
+
     @Column(name = "medical_history")
     private String medicalHistory;
 
@@ -73,7 +73,7 @@ public class Patient {
     @Column(name = "blood_type")
     private String bloodType;
 
-    // System Information
+
     @Column(name = "status")
     private Status status;
 
@@ -87,7 +87,7 @@ public class Patient {
 
 
 
-    //Relations
+
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 }

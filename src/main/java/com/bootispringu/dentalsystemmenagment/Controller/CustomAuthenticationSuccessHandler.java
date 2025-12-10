@@ -13,19 +13,20 @@ import java.util.Collection;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        String redirectUrl = "/"; // fallback
+        String redirectUrl = "/";
 
         for (GrantedAuthority authority : authorities) {
             String role = authority.getAuthority();
-            // Spring Security prefixes roles with "ROLE_", so we need to handle that
+
             if (role.startsWith("ROLE_")) {
-                role = role.substring(5); // Remove "ROLE_" prefix
+                role = role.substring(5);
             }
             if (role.equals("RECEPTIONIST")) {
                 redirectUrl = "/receptionist/home";
@@ -38,6 +39,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 break;
             } else if (role.equals("ADMIN")) {
                 redirectUrl = "/admin/home";
+                break;
+            } else if (role.equals("MANAGER")) {
+                redirectUrl = "/manager/home";
+                break;
+            } else if (role.equals("FINANCE")) {
+                redirectUrl = "/finance/home";
                 break;
             }
         }

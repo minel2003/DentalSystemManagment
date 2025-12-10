@@ -67,24 +67,21 @@ public class UserAccountService {
         }
         String value = role.trim().toUpperCase();
         return switch (value) {
-            case "ADMIN", "PATIENT","DOCTOR","RECEPTIONIST" -> value;
+            case "ADMIN", "PATIENT","DOCTOR","RECEPTIONIST","MANAGER","FINANCE" -> value;
             default -> "PATIENT";
         };
     }
 
-    /**
-     * Create a UserAccount for a patient with default password "1234"
-     */
     @Transactional
     public UserAccount createUserAccountForPatient(Patient patient) {
-        // Use email as username (most reliable identifier)
+
         String username = patient.getEmail();
         if (username == null || username.isBlank()) {
-            // Generate username from patient name and ID if email not available
+
             username = (patient.getFirstName() + "." + patient.getLastName() + patient.getPatientId()).toLowerCase().replaceAll("\\s+", "");
         }
 
-        // Check if username already exists, if so append patient ID
+
         String finalUsername = username.trim();
         int counter = 1;
         while (userAccountRepository.findByUsername(finalUsername).isPresent()) {
@@ -94,26 +91,23 @@ public class UserAccountService {
 
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername(finalUsername);
-        userAccount.setPassword(passwordEncoder.encode("1234")); // Default password
+        userAccount.setPassword(passwordEncoder.encode("1234"));
         userAccount.setRole(Role.PATIENT);
         userAccount.setPatient(patient);
 
         return userAccountRepository.save(userAccount);
     }
 
-    /**
-     * Create a UserAccount for an employee (doctor/receptionist) with default password "1234"
-     */
     @Transactional
     public UserAccount createUserAccountForEmployee(Employee employee) {
-        // Use email as username, or generate one if email not available
+
         String username = employee.getEmail();
         if (username == null || username.isBlank()) {
-            // Generate username from employee name and ID if email not available
+
             username = (employee.getFirstName() + "." + employee.getLastName() + employee.getId()).toLowerCase().replaceAll("\\s+", "");
         }
 
-        // Check if username already exists, if so append employee ID
+
         String finalUsername = username.trim();
         int counter = 1;
         while (userAccountRepository.findByUsername(finalUsername).isPresent()) {
@@ -123,28 +117,46 @@ public class UserAccountService {
 
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername(finalUsername);
-        userAccount.setPassword(passwordEncoder.encode("1234")); // Default password
+        userAccount.setPassword(passwordEncoder.encode("1234"));
         userAccount.setRole(employee.getRole());
         userAccount.setEmployee(employee);
 
         return userAccountRepository.save(userAccount);
     }
 
-    /**
-     * Sync UserAccounts for all existing patients and doctors that don't have accounts
-     * @return Summary of created accounts
-     */
+    public boolean hasUserAccount(Employee employee) {
+        return userAccountRepository.findByEmployee(employee).isPresent();
+    }
+    
+    public java.util.Optional<UserAccount> findByEmployee(Employee employee) {
+        return userAccountRepository.findByEmployee(employee);
+    }
+    
+    @Transactional
+    public void resetPasswordForEmployee(Employee employee) {
+        userAccountRepository.findByEmployee(employee).ifPresent(userAccount -> {
+            userAccount.setPassword(passwordEncoder.encode("1234"));
+            userAccountRepository.save(userAccount);
+        });
+    }
+    
+    @Transactional
+    public void deleteByEmployee(Employee employee) {
+        userAccountRepository.findByEmployee(employee)
+                .ifPresent(userAccount -> userAccountRepository.delete(userAccount));
+    }
+
     @Transactional
     public SyncResult syncMissingUserAccounts() {
         int patientsCreated = 0;
         int doctorsCreated = 0;
         List<String> errors = new ArrayList<>();
 
-        // Sync patients
+
         List<Patient> patients = patientService.findAll();
         for (Patient patient : patients) {
             try {
-                // Check if patient already has a UserAccount
+
                 if (userAccountRepository.findByPatient(patient).isEmpty()) {
                     createUserAccountForPatient(patient);
                     patientsCreated++;
@@ -154,11 +166,11 @@ public class UserAccountService {
             }
         }
 
-        // Sync doctors
+
         List<Employee> doctors = employeeService.findAllDoctors();
         for (Employee doctor : doctors) {
             try {
-                // Check if doctor already has a UserAccount
+
                 if (userAccountRepository.findByEmployee(doctor).isEmpty()) {
                     createUserAccountForEmployee(doctor);
                     doctorsCreated++;
@@ -171,9 +183,6 @@ public class UserAccountService {
         return new SyncResult(patientsCreated, doctorsCreated, errors);
     }
 
-    /**
-     * Result class for sync operation
-     */
     public static class SyncResult {
         private final int patientsCreated;
         private final int doctorsCreated;

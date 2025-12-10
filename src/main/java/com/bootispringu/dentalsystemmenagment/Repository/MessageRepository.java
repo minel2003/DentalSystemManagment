@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    // Get all messages sent by a patient
+
     List<Message> findByPatient(Patient patient);
 
-    // Optional: Get all messages sent to a specific doctor
+
     List<Message> findByDoctor(Employee doctor);
     List<Message> findByDoctorOrderBySentAtDesc(Employee doctor);
 

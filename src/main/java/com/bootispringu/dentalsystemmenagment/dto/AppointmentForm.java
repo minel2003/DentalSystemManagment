@@ -15,22 +15,22 @@ import java.time.LocalTime;
 @ToString
 public class AppointmentForm {
 
-    private Long id; // optional for updates
+    private Long id;
 
     @NotNull(message = "Date is required!")
-    private LocalDate date; // separate date
+    private LocalDate date;
 
     @NotNull(message = "Time is required!")
     private LocalTime time;
     @Size(max = 500, message = "Notes cannot exceed 500 characters")
     private String notes;
 
-    @NotNull(message = "Status is required!")
-    private Status status; // SCHEDULED, COMPLETED, CANCELLED
+
+    private Status status;
 
     @NotNull(message = "Patient is required!")
-    private Long patientId; // selected patient id from dropdown
+    private Long patientId;
 
     @NotNull(message = "Doctor is required!")
-    private Long doctorId; // selected doctor id from dropdown
+    private Long doctorId;
 }

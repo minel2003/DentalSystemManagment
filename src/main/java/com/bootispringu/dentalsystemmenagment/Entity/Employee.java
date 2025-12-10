@@ -28,7 +28,7 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
-    // Contact Information
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -44,20 +44,20 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
-    // Personal Information
+
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "gender")
     private String gender;
 
-    // Job Information
+
     @Column(name="position")
-    private String position; // optional for role
+    private String position;
 
     @Enumerated(EnumType.STRING)
     @Column(name="role", nullable=false)
-    private Role role; // DOCTOR, RECEPTIONIST, FINANCE, etc.
+    private Role role;
 
     @Column(name="specialization")
     private String specialization;
@@ -72,7 +72,7 @@ public class Employee {
     @Column(name="salary")
     private Double salary;
 
-    // System Information
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
@@ -83,7 +83,7 @@ public class Employee {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //Relations
+
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 }

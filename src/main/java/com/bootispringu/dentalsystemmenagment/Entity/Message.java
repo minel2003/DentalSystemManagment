@@ -17,7 +17,7 @@ private Long id;
 
 @ManyToOne
 @JoinColumn(name = "patient_id")
-private Patient patient; // 🔹 Link message to patient
+private Patient patient;
 
 @ManyToOne
 @JoinColumn(name = "doctor_id", nullable = true)

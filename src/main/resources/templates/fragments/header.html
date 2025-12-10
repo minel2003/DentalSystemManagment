@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Header Fragment -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="fas fa-tooth"></i> DentalCare Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{/admin/home}">Dashboard</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('DOCTOR')">
+                        <a class="nav-link" th:href="@{/doctor/home}">Dashboard</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('PATIENT')">
+                        <a class="nav-link" th:href="@{/patient/home}">Dashboard</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('RECEPTIONIST')">
+                        <a class="nav-link" th:href="@{/receptionist/home}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-outline-light">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
+

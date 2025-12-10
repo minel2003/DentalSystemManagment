@@ -17,13 +17,17 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
 
-        // All appointments for a patient
-        List<Appointment> findByPatient(Patient patient);
 
-        // Count completed appointments
+        List<Appointment> findByPatient(Patient patient);
+        
+
+        @Query("SELECT a FROM Appointment a WHERE a.patient.patientId = :patientId ORDER BY a.appointmentDate ASC, a.appointmentTime ASC")
+        List<Appointment> findByPatientId(@Param("patientId") Long patientId);
+
+
         long countByPatientAndStatus(Patient patient, Status status);
 
-        // Find next upcoming appointment for a patient
+
         @Query("SELECT a FROM Appointment a " +
                 "WHERE a.patient = :patient " +
                 "AND (a.appointmentDate > :today OR (a.appointmentDate = :today AND a.appointmentTime > :now)) " +
@@ -31,18 +35,23 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
         Appointment findNextAppointmentForPatient(@Param("patient") Patient patient,
             @Param("today") LocalDate today,
             @Param("now") LocalTime now);
-//Doctor
+            
+
         List<Appointment> findByDoctorOrderByAppointmentDateAscAppointmentTimeAsc(Employee doctor);
+        
+
+        @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId ORDER BY a.appointmentDate ASC, a.appointmentTime ASC")
+        List<Appointment> findByDoctorId(@Param("doctorId") Long doctorId);
 
 
-        // Count upcoming appointments for doctor
+
         @Query("SELECT COUNT(a) FROM Appointment a WHERE a.doctor = :doctor AND " +
                 "(a.appointmentDate > :today OR (a.appointmentDate = :today AND a.appointmentTime >= :now)) AND a.status = 'ACTIVE'")
         long countUpcomingAppointmentsForDoctor(@Param("doctor") Employee doctor,
             @Param("today") LocalDate today,
             @Param("now") LocalTime now);
 
-        // Count completed appointments for doctor
+
         @Query("SELECT COUNT(a) FROM Appointment a WHERE a.doctor = :doctor AND a.status = 'COMPLETED'")
         long countCompletedAppointmentsForDoctor(@Param("doctor") Employee doctor);
     }

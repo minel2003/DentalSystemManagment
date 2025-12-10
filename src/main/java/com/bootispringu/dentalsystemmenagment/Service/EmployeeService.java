@@ -25,7 +25,14 @@ public class EmployeeService {
     public List<Employee> findAllDoctors() {
         return employeeRepository.findByRole(Role.DOCTOR);
     }
-
+    
+    public List<Employee> findAllReceptionists() {
+        return employeeRepository.findByRole(Role.RECEPTIONIST);
+    }
+    
+    public List<Employee> findAllManagers() {
+        return employeeRepository.findByRole(Role.MANAGER);
+    }
 
     public List<Employee> findAll() {
         return employeeRepository.findAll();
@@ -34,11 +41,12 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + id));
     }
-    /**
-     * Find employee by UserAccount username (which is typically the email)
-     */
     public Employee findByUserAccountUsername(String username) {
-        // UserAccount username is typically the email
+
         return employeeRepository.findByEmail(username).orElse(null);
+    }
+    
+    public void delete(Long id) {
+        employeeRepository.deleteById(id);
     }
 }
